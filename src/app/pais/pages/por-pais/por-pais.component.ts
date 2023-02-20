@@ -11,10 +11,12 @@ export class PorPaisComponent {
   termino: string = '';
   hayError: boolean = false;
   paises: Country[] = [];
+  paisesAutocomplete: Country[] = [];
 
   constructor(private paisService: PaisService) {}
 
   buscar(termino: string) {
+    this.paisesAutocomplete = [];
     this.hayError = false;
     this.termino = termino;
     this.paisService.buscarPais(this.termino).subscribe({
@@ -31,5 +33,15 @@ export class PorPaisComponent {
 
   sugerencias(termino: string) {
     this.hayError = false;
+    this.termino = termino;
+    this.paisService.buscarPais(termino).subscribe({
+      next: (paises) => {
+        this.paisesAutocomplete = paises.splice(0,5);
+      },
+      error: (err) => {
+        this.hayError = true;
+        this.paisesAutocomplete = [];
+      },
+    });
   }
 }

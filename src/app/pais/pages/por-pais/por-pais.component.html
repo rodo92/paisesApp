@@ -7,7 +7,14 @@
             <app-pais-input (onEnter)="buscar( $event )" (onDebounce)="sugerencias($event)" placeholder="Buscar por pais..."></app-pais-input>
         </div>
     </div>
-    
+    <ul class="list-group" *ngIf="paisesAutocomplete.length > 0">
+        <li class="list-group-item list-group-item-action" *ngFor="let pA of paisesAutocomplete">
+            <a [routerLink]="['/pais', pA.cca2]" class="nav-link">{{ pA.name.common }}</a>
+        </li>
+        <li class="list-group-item list-group-item-action">
+            <a class="nav-link" (click)="buscar(termino)">Buscar por {{ termino }}</a>
+        </li>
+    </ul>
     <hr>
 
 </div>
